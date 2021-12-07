@@ -3,13 +3,14 @@ from typing import List
 from line import Line
 from utils.readlines import read_lines
 
-lines = read_lines(Line)
+input_lines = read_lines(Line)
 
 
-def get_solution(_lines: List[Line]) -> str:
-    print(_lines[0])
+def get_solution(lines: List[Line]) -> str:
+    for line in lines:
+        pass
     solution = 0
     return str(solution)
 
 
-print(get_solution(lines))
+print(get_solution(input_lines))
