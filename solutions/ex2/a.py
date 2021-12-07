@@ -1,3 +1,21 @@
-def readlines():
-    f = open("in")
-    return [int(lines.rstrip()) for lines in f]
+from typing import List
+
+from line import Line
+from utils.readlines import read_lines
+
+lines = read_lines(Line, 'input.in')
+
+
+def get_solution(_lines: List[Line]) -> str:
+    depth = 0
+    horizontal = 0
+    for l in _lines:
+        if l.command == "forward":
+            horizontal += l.value
+        else:
+            depth += l.value if l.command == "down" else -l.value
+    solution = depth * horizontal
+    return str(solution)
+
+
+print(get_solution(lines))
