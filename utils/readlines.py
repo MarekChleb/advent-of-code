@@ -1,4 +1,4 @@
-from typing import Type, Iterable
+from typing import Type, List, TypeVar
 
 
 class LineInterface:
@@ -6,6 +6,9 @@ class LineInterface:
         self.raw_line = line
 
 
-def read_lines(line_type: Type[LineInterface], filename="example.in") -> Iterable[LineInterface]:
+LineType = TypeVar('LineType', bound=LineInterface)
+
+
+def read_lines(line_type: Type[LineType], filename="example.in") -> List[LineType]:
     f = open(filename)
     return [line_type(line.rstrip()) for line in f]
