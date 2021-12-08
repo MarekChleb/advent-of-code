@@ -4,6 +4,7 @@ from line import Line
 from utils.readlines import read_lines
 
 input_lines = read_lines(Line)
+# input_lines = read_lines(Line, 'input.in')
 
 
 def get_solution(lines: List[Line]) -> str:
