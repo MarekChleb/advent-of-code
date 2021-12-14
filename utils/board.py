@@ -1,10 +1,10 @@
 from typing import Sequence, TypeVar, Tuple, Callable, Generic, List
 
 T = TypeVar('T')
-KT = Tuple[int, int]
+Coordinates = Tuple[int, int]
 
 
-def default_key_func(x: int, y: int) -> KT:
+def default_key_func(x: int, y: int) -> Coordinates:
     return x, y
 
 
@@ -18,16 +18,16 @@ class Board(Generic[T]):
             for x in range(len(row)):
                 self.board[key_func(x, y)] = row[x]
 
-    def set_key_func(self, key_func: Callable[[KT], KT]):
+    def set_key_func(self, key_func: Callable[[Coordinates], Coordinates]):
         self._get_key = key_func
 
-    def get(self, k: KT) -> T:
+    def get(self, k: Coordinates) -> T:
         return self.board[k] if k in self.board else self._default_el
 
-    def set(self, k: KT, v: T):
+    def set(self, k: Coordinates, v: T):
         self.board[k] = v
 
-    def around(self, k: KT) -> List[T]:
+    def around(self, k: Coordinates) -> List[T]:
         x, y = k
         neighbours = []
         for dx in [-1, 0, 1]:
@@ -40,6 +40,6 @@ class Board(Generic[T]):
                     neighbours.append((xx, yy))
         return neighbours
 
-    def around_non_diagonal(self, k: KT) -> List[T]:
+    def around_non_diagonal(self, k: Coordinates) -> List[T]:
         x, y = k
         return list(set(self.around(k)) - {(x - 1, y - 1), (x - 1, y + 1), (x + 1, y - 1), (x + 1, y + 1)})
