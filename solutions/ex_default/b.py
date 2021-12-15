@@ -1,10 +1,8 @@
+from glob import glob
 from typing import List
 
 from helpers import Line
 from utils.readlines import read_lines
-
-input_lines = read_lines(Line)
-# input_lines = read_lines(Line, 'input.in')
 
 
 def get_solution(lines: List[Line]) -> str:
@@ -14,4 +12,6 @@ def get_solution(lines: List[Line]) -> str:
     return str(solution)
 
 
-print(get_solution(input_lines))
+for filename in glob('input/*.in'):
+    input_lines = read_lines(Line, filename)
+    print(filename, get_solution(input_lines))
