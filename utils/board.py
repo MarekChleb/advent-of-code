@@ -1,4 +1,6 @@
-from typing import Sequence, TypeVar, Tuple, Callable, Generic, List
+from typing import Sequence, TypeVar, Tuple, Callable, Generic, List, Optional
+
+from utils.graph import Graph, Edge
 
 T = TypeVar('T')
 Coordinates = Tuple[int, int]
@@ -32,7 +34,7 @@ class Board(Generic[T]):
         x, y = k
         neighbours = []
         for dx in [-1, 0, 1]:
-            for dy in[-1, 0, 1]:
+            for dy in [-1, 0, 1]:
                 if dx == dy == 0:
                     continue
                 xx = x + dx
@@ -45,13 +47,12 @@ class Board(Generic[T]):
     def around_non_diagonal(self, k: Coordinates) -> List[T]:
         x, y = k
         neighbours = []
-        for dx in [-1, 1]:
-            for dy in [-1, 1]:
-                xx = x + dx
-                yy = y + dy
-                k = self._get_key((xx, yy))
-                if k in self.board:
-                    neighbours.append(k)
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            xx = x + dx
+            yy = y + dy
+            k = self._get_key((xx, yy))
+            if k in self.board:
+                neighbours.append(k)
         return neighbours
 
     def __repr__(self) -> str:
@@ -66,3 +67,14 @@ class Board(Generic[T]):
 
     def __len__(self) -> int:
         return len(self.board)
+
+    def to_graph_non_diagonal(self, get_func: Optional[Callable[[Coordinates], T]] = None) -> Graph[Coordinates, T]:
+        vertices = list(self.board.keys())
+        if get_func is None:
+            get_func = self.get
+        edges = []
+        for k in self.board:
+            for neighbour in self.around_non_diagonal(k):
+                edges.append(Edge(k, neighbour, get_func(neighbour)))
+
+        return Graph[Coordinates, T](vertices, edges)
