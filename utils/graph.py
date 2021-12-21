@@ -17,6 +17,9 @@ class Edge(Generic[KT, VT]):
         yield self.end
         yield self.value
 
+    def __repr__(self):
+        return f"{self.start}--{self.value}-->{self.end}"
+
 
 @dataclass
 class Neighbour(Generic[KT, VT]):
