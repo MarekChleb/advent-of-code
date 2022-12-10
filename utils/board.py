@@ -59,8 +59,8 @@ class Board(Generic[T]):
         x_min, y_min = min(self.board.keys())
         x_max, y_max = max(self.board.keys())
         pretty_printed = ''
-        for x in range(x_min, x_max + 1):
-            for y in range(y_min, y_max + 1):
+        for y in range(y_max, y_min - 1, -1):
+            for x in range(x_min, x_max + 1):
                 pretty_printed += str(self.get((x, y)))
             pretty_printed += '\n'
         return pretty_printed
