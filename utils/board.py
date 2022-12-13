@@ -44,7 +44,7 @@ class Board(Generic[T]):
                     neighbours.append(k)
         return neighbours
 
-    def around_non_diagonal(self, k: Coordinates) -> List[T]:
+    def around_non_diagonal(self, k: Coordinates) -> List[Coordinates]:
         x, y = k
         neighbours = []
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
