@@ -27,10 +27,15 @@ def get_solution(lines: List[Line]) -> str:
     def kk(p, cr):
         return f'{cr}_{list(set(p)).sort()}'
 
+    tt = 0
+
     while len(q):
         valve, turn, path, wait_for_open, vv, moves = q.pop(0)
         # print(valve, turn, path, wait_for_open, vv, moves)
         if turn == 26:
+            if tt < turn:
+                print(turn)
+                tt += 1
             break
         if wait_for_open:
             vvv = vv.copy()

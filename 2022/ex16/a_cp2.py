@@ -35,6 +35,7 @@ def get_solution(lines: List[Line]) -> str:
         if turn not in shown:
             print(turn)
             shown.add(turn)
+            q = sorted(q, key=lambda x: x[4], reverse=True)[:10000]
         if turn == 30:
             break
 
