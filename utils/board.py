@@ -30,7 +30,7 @@ class Board(Generic[T]):
     def set(self, k: Coordinates, v: T):
         self.board[self._get_key(k)] = v
 
-    def around(self, k: Coordinates) -> List[T]:
+    def around(self, k: Coordinates) -> List[Coordinates]:
         x, y = k
         neighbours = []
         for dx in [-1, 0, 1]:
@@ -78,3 +78,8 @@ class Board(Generic[T]):
                 edges.append(Edge(k, neighbour, get_func(neighbour)))
 
         return Graph[Coordinates, T](vertices, edges)
+
+    def move(self, start: Coordinates, end: Coordinates):
+        start_val = self.get(start)
+        self.set(end, start_val)
+        self.set(start, self._default_el)
