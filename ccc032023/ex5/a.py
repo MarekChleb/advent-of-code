@@ -33,8 +33,8 @@ wins = {
 }
 
 
-def generate_tournament(winner, r, p, s, y, l) -> bool:
-    generate_tournament(winner, r, p, s - 1, )
+# def generate_tournament(winner, r, p, s, y, l) -> bool:
+#     generate_tournament(winner, r, p, s - 1, )
 
 
 def get_solution(lines: List[Line]) -> str:
@@ -43,10 +43,12 @@ def get_solution(lines: List[Line]) -> str:
     nums = int(nums)
     for line in lines[1:]:
         ss = []
-        r, p, s = line.raw_line.split(" ")
+        r, p, s, y, l = line.raw_line.split(" ")
         r = int(r[:-1])
         p = int(p[:-1])
         s = int(s[:-1])
+        y = int(y[:-1])
+        l = int(l[:-1])
 
         cur_c = nums // 2 - 1
         while r >= cur_c and cur_c > 0:
@@ -55,10 +57,19 @@ def get_solution(lines: List[Line]) -> str:
             p -= 1
             cur_c = (cur_c + 1) // 2 - 1
 
-        if r > 0:
-            ss.append('P' + 'R' * r + 'S' * (s - 1) + 'P' * (p - 1) + 'S')
+        while y >= cur_c and cur_c > 0:
+            ss.append('Y' * cur_c + 'L')
+            y -= cur_c
+            l -= 1
+            cur_c = (cur_c + 1) // 2 - 1
+        # ss.append('P' + 'R' * r + 'S' * (s - 1) + 'P' * (p - 1) + 'S')
+
+        if p <= 1:
+            ss.append('R' * r + 'Y' * y + 'P' * p + 'L' * l + 'S' * s)
         else:
-            ss.append('R' * r + 'P' * p + 'S' * s)
+            ss.append('P' + 'R' * r + 'Y' * y + 'P' * (p - 1) + 'L' * l + 'S' * s)
+
+
 
         solution.append(''.join(ss))
 
@@ -68,6 +79,7 @@ def get_solution(lines: List[Line]) -> str:
 for i, filename in enumerate(sorted(glob('input/*.in'))):
     input_lines = read_lines(Line, filename)
     s = get_solution(input_lines)
-    print(filename, get_solution(input_lines))
+    print(filename)
+    print(get_solution(input_lines))
     with open(filename + '.out', "w") as output:
         output.write(str(s))
