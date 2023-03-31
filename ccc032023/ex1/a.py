@@ -24,6 +24,9 @@ def get_solution(lines: List[Line]) -> str:
     return str('\n'.join(solution))
 
 
-for filename in glob('input/*.in'):
+for i, filename in enumerate(glob('input/*.in')):
     input_lines = read_lines(Line, filename)
+    s = get_solution(input_lines)
     print(filename, get_solution(input_lines))
+    with open(filename + '.out', "w") as output:
+        output.write(str(s))
