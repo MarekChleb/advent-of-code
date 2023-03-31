@@ -6,14 +6,30 @@ from utils.readlines import read_lines
 
 wins = {
     'PP': 'P',
-    'SS': 'S',
     'RR': 'R',
+    'SS': 'S',
+    'LL': 'L',
+    'YY': 'Y',
     'PR': 'P',
     'RP': 'P',
+    'PY': 'P',
+    'YP': 'P',
     'RS': 'R',
     'SR': 'R',
+    'RL': 'R',
+    'LR': 'R',
     'SP': 'S',
-    'PS': 'S'
+    'PS': 'S',
+    'SL': 'S',
+    'LS': 'S',
+    'LP': 'L',
+    'PL': 'L',
+    'LY': 'L',
+    'YL': 'L',
+    'YS': 'Y',
+    'SY': 'Y',
+    'YR': 'Y',
+    'RY': 'Y'
 }
 
 def get_solution(lines: List[Line]) -> str:
