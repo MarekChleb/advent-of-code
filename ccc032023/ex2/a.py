@@ -1,8 +1,23 @@
 from glob import glob
 from typing import List
 
-from helpers import Line
-from utils.readlines import read_lines
+from typing import Sequence, TypeVar, Tuple, Callable, Generic, List, Optional, Type
+class LineInterface:
+    def __init__(self, line: str):
+        self.raw_line = line
+
+
+class Line(LineInterface):
+    def __init__(self, line: str):
+        super().__init__(line)
+
+
+LineType = TypeVar('LineType', bound=LineInterface)
+
+
+def read_lines(line_type: Type[LineType], filename="example.in") -> List[LineType]:
+    f = open(filename)
+    return [line_type(line.rstrip()) for line in f]
 
 wins = {
     'PP': 'P',

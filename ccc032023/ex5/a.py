@@ -1,8 +1,24 @@
 from glob import glob
 from typing import List
 
-from helpers import Line
-from utils.readlines import read_lines
+from typing import Sequence, TypeVar, Tuple, Callable, Generic, List, Optional, Type
+
+class LineInterface:
+    def __init__(self, line: str):
+        self.raw_line = line
+
+
+class Line(LineInterface):
+    def __init__(self, line: str):
+        super().__init__(line)
+
+LineType = TypeVar('LineType', bound=LineInterface)
+
+
+def read_lines(line_type: Type[LineType], filename="example.in") -> List[LineType]:
+    f = open(filename)
+    return [line_type(line.rstrip()) for line in f]
+
 
 wins = {
     'PP': 'P',
@@ -43,6 +59,8 @@ def get_solution(lines: List[Line]) -> str:
     nums = int(nums)
     for line in lines[1:]:
         ss = []
+        print("-"*20)
+        print(line.raw_line)
         r, p, s, y, l = line.raw_line.split(" ")
         r = int(r[:-1])
         p = int(p[:-1])
@@ -52,31 +70,75 @@ def get_solution(lines: List[Line]) -> str:
 
         cur_c = nums // 2 - 1
         while r >= cur_c and cur_c > 0:
-            ss.append('R' * cur_c + 'P')
+            ss.append('R' * cur_c)
             r -= cur_c
-            p -= 1
+            if cur_c == nums//2 -1:
+                if p > 0:
+                    ss.append('P')
+                    p -= 1
+                elif y > 0:
+                    ss.append('Y')
+                    y -= 1
+                else:
+                    raise("shouldnt happen 1")
+            else: 
+                if y > 0:
+                    ss.append('Y')
+                    y -= 1
+                elif p > 0:
+                    ss.append('P')
+                    p -= 1
+                else:
+                    raise("shouldnt happen 1.5")
+
             cur_c = (cur_c + 1) // 2 - 1
 
         while y >= cur_c and cur_c > 0:
-            ss.append('Y' * cur_c + 'L')
+            ss.append('Y' * cur_c)
             y -= cur_c
-            l -= 1
+            if p > 0:
+                ss.append('P')
+                p -= 1
+            elif l > 0:
+                ss.append('L')
+                l -= 1
+            else:
+                raise("shouldnt happen 2")
+
             cur_c = (cur_c + 1) // 2 - 1
-        # ss.append('P' + 'R' * r + 'S' * (s - 1) + 'P' * (p - 1) + 'S')
 
-        if p <= 1:
-            ss.append('R' * r + 'Y' * y + 'P' * p + 'L' * l + 'S' * s)
-        else:
-            ss.append('P' + 'R' * r + 'Y' * y + 'P' * (p - 1) + 'L' * l + 'S' * s)
+        while r > 0 and y > 0:
+            ss.append("RY")
+            r -= 1
+            y -= 1
+
+        while r > 0 and p > 0:
+            ss.append("RP")
+            r -= 1
+            p -= 1
+            
+        while y > 0 and p > 0:
+            ss.append("YP")
+            y -= 1
+            p -= 1
 
 
+        ss.append("P" * p)
+        ss.append("L" * l)
+        ss.append("S" * s)
+
+        print("R", r)
+        print("Y", y)
+        print("P", p)
+        print("L", l)
+        print("S", s)
 
         solution.append(''.join(ss))
 
     return str('\n'.join(solution))
 
 
-for i, filename in enumerate(sorted(glob('input/*.in'))):
+for i, filename in enumerate(sorted(glob('input/level5_1.in'))):
     input_lines = read_lines(Line, filename)
     s = get_solution(input_lines)
     print(filename)
