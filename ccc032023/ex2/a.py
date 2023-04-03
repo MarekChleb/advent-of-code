@@ -1,3 +1,4 @@
+from collections import Counter
 from glob import glob
 from typing import List
 
@@ -36,6 +37,8 @@ def get_solution(lines: List[Line]) -> str:
     solution = []
     for j, line in enumerate(lines[1:]):
         nl = line.raw_line
+        c = Counter(nl)
+        print(c)
         while len(nl) != 1:
             new_line = []
             for i in range(0, len(nl), 2):
